@@ -37,6 +37,7 @@ const WalletPage: React.FC<BoxProps> = (props: BoxProps) => {
   const balances = useWalletBalances();
   const prices = usePrices();
 
+  // use Blockchain for type safety
   const getPriority = (blockchain: Blockchain): number => {
     switch (blockchain) {
       case Blockchain.OSMOSIS:
@@ -67,7 +68,7 @@ const WalletPage: React.FC<BoxProps> = (props: BoxProps) => {
       const balancePriority = getPriority(balance.blockchain); // WalletBalance has no ```blockchain``` property
       return {
         ...balance,
-        formatted: balance.amount.toFixed(2),
+        formatted: balance.amount.toFixed(),
         priority: balancePriority,
       };
     });

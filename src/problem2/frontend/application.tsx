@@ -1,8 +1,8 @@
 import React from "react";
 
-export function Application() {
+export function App() {
   return (
-    <div>
+    <div className="flex">
       <h1> Swap Currency </h1>
     </div>
   )

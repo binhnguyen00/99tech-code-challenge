@@ -6,29 +6,34 @@
     "email": "jackjack2000.kahp@gmail.com",
     "url": "https://github.com/binhnguyen00"
   },
-  "version": "0.1.0",
+  "version": "0.0.1",
   "type": "module",
-  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "server": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "ts-check": "tsc -b"
+    "ts-check": "tsc -b",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "axios": "^1.11.0",
     "react": "^19.0.2",
     "react-dom": "^19.0.2"
   },
   "devDependencies": {
-    "@types/node": "^24.0.3",
+    "@types/node": "^24.5.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@types/react-router-dom": "^5.3.3",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@tailwindcss/postcss": "^4.1.13",
+    "@vitejs/plugin-react": "^5.0.3",
+    "autoprefixer": "^10.4.21",
+    "globals": "^16.3.0",
     "postcss": "^8.5.6",
-    "vite": "^6.3.5",
+    "tailwindcss": "^4.1.12",
+    "vite": "^7.1.7",
     "vite-tsconfig-paths": "^5.1.4",
-    "typescript": "^5.5.2"
+    "typescript": "^5.9.2"
   }
 }

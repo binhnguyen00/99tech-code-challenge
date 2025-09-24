@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "allowJs": true,
     "strict": true,
     "pretty": true,
@@ -11,7 +11,7 @@
     "declarationMap": true,
     "skipLibCheck": true,
     "declarationDir": "dist/@types",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "target": "es2024",
     "module": "es2022",
     "outDir": "dist",
@@ -25,6 +25,6 @@
     "dist"
   ],
   "include": [
-    "./**/*",
+    ".",
   ],
 }

@@ -11,14 +11,23 @@
     "declarationMap": true,
     "skipLibCheck": true,
     "declarationDir": "dist/@types",
-    "jsx": "react-jsx",
     "target": "es2024",
     "module": "es2022",
     "outDir": "dist",
     "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
     "types": [
       "vite/client"
-    ]
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
   },
   "exclude": [
     "node_modules",

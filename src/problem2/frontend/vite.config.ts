@@ -1,6 +1,7 @@
 import path from "path";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
+import tailwindcss from "@tailwindcss/vite";
 
 import { defineConfig } from "vite";
 
@@ -9,7 +10,8 @@ export default function viteConfig() {
     root: path.resolve(__dirname),
     plugins: [
       react(),
-      tsconfigPaths()
+      tsconfigPaths(),
+      tailwindcss()
     ],
     build: {
       chunkSizeWarningLimit: 1000,

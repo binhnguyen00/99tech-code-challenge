@@ -1,13 +1,17 @@
 from pydantic import BaseModel;
 from flask import Blueprint, request;
 from requests import get, Response, codes;
+from typing import Any;
 
 blueprint = Blueprint("Controller", __name__)
 
 class CurrencyExchange(BaseModel):
   currency: str
   date: str
-  price: int
+  price: float
+
+  def to_dict(self):
+    return {"currency": self.currency, "date": self.date, "price": self.price}
 
 @blueprint.route("/currency/exchange", methods=["POST"])
 def exchange_currency():
@@ -56,6 +60,34 @@ def exchange_currency():
       "to": to_currency,
       "amount_out": amount_out
     }
+  }
+
+@blueprint.route("/currency", methods=["GET"])
+def search_currency():
+  response: Response = get("https://interview.switcheo.com/prices.json")
+  if (response.status_code != codes.ok):
+    return {
+      "status": response.status_code,
+      "success": False,
+      "message": "Cannot get currency exchange rate",
+      "data": None
+    }
+
+  seen = set()
+  purified: list[dict] = []
+  exchanges: list[CurrencyExchange] = [ CurrencyExchange(**raw) for raw in response.json() ]
+  for ex in exchanges:
+    key = ex.currency
+    if (key in seen):
+      continue
+    seen.add(key)
+    purified.append(ex.to_dict())
+
+  return {
+    "status": response.status_code,
+    "success": True,
+    "message": "Get currency exchange rate successfully",
+    "data": purified
   }
 
 @blueprint.route("/health", methods=["GET"])

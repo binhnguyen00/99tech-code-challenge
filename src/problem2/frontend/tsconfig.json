@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "allowJs": true,
+    "strict": true,
+    "pretty": true,
+    "incremental": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "declarationDir": "dist/@types",
+    "jsx": "react",
+    "target": "es2024",
+    "module": "es2022",
+    "outDir": "dist",
+    "moduleResolution": "bundler",
+    "types": [
+      "vite/client"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "include": [
+    "./**/*",
+  ],
+}

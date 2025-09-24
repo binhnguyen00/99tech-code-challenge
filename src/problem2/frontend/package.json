@@ -1,0 +1,34 @@
+{
+  "name": "frontend",
+  "description": "Tech99 Problem 2",
+  "author": {
+    "name": "binh.nguyen - JackJack",
+    "email": "jackjack2000.kahp@gmail.com",
+    "url": "https://github.com/binhnguyen00"
+  },
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "server": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "ts-check": "tsc -b"
+  },
+  "dependencies": {
+    "react": "^19.0.2",
+    "react-dom": "^19.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.3",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.2.1",
+    "postcss": "^8.5.6",
+    "vite": "^6.3.5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "typescript": "^5.5.2"
+  }
+}

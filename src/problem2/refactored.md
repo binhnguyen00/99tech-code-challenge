@@ -29,8 +29,8 @@ interface FormattedWalletBalance extends WalletBalance {
   priority: number; // add property
 }
 
-/** remove, use BoxProps
-- ```Props``` extends ```BoxProps``` but has no properties
+/** remove Props, use BoxProps
+ * ```Props``` extends ```BoxProps``` but has no properties
 */
 const WalletPage: React.FC<BoxProps> = (props: BoxProps) => {
   const { children, ...rest } = props;

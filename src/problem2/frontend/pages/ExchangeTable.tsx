@@ -1,38 +1,47 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
+import { Card, CardBody } from "@heroui/card";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/table";
 
-import { DefaultLayout } from "@/components/DefaultLayout";
-
-const fetchCurrencies = async () => {
-  const response = await axios.get("http://localhost:8080/currency")
+async function searchExchanges() {
+  const response = await axios.get("http://localhost:8080/exchange/search")
   return response.data
 }
 
 export function ExchangeTable() {
-  const { data: response, isLoading, isError } = useQuery({
-    queryKey: ["currencies"],
-    queryFn: fetchCurrencies
+  const { data: response, isLoading, isError, refetch } = useQuery({
+    queryKey: ["exchanges"],
+    queryFn: searchExchanges,
+    retry(failureCount: number, error) {
+      return failureCount < 3
+    },
+    retryDelay: 1000,
   })
 
   if (isLoading) {
     return (
-      <DefaultLayout>
-        <div className="flex justify-center items-center h-full">
-          <Spinner />
-        </div>
-      </DefaultLayout>
+      <Card fullWidth className="flex items-center justify-center p-10">
+        <CardBody>
+          <Spinner size="lg" label="Loading exchanges..." />
+        </CardBody>
+      </Card>
     )
   }
 
   if (isError || !response.success) {
     return (
-      <DefaultLayout>
-        <div className="text-center text-red-500 font-bold">
-          Error fetching currencies
-        </div>
-      </DefaultLayout>
+      <Card fullWidth className="flex items-center justify-center p-10">
+        <CardBody className="flex flex-col gap-4 items-center">
+          <div className="text-center text-red-500 font-bold">
+            Error fetching exchanges
+          </div>
+          <Button fullWidth={false} color="primary" onClick={() => refetch()}>
+            Retry
+          </Button>
+        </CardBody>
+      </Card>
     )
   }
 
@@ -44,13 +53,15 @@ export function ExchangeTable() {
       isVirtualized
       maxTableHeight={300}
       rowHeight={70}
+      selectionMode="single"
+      color="primary"
     >
       <TableHeader>
         <TableColumn>Currency</TableColumn>
         <TableColumn>Price</TableColumn>
         <TableColumn>Date</TableColumn>
       </TableHeader>
-      <TableBody>
+      <TableBody isLoading={isLoading}>
         {currencies.map(currency => (
           <TableRow key={`${currency.currency}-${currency.price}`}>
             <TableCell>{currency.currency}</TableCell>

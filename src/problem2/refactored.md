@@ -86,8 +86,10 @@ const WalletPage: React.FC<BoxProps> = (props: BoxProps) => {
   }, [ balances ]);
 
   /** 
-   * remove ```sortedBalances```. replace with ```formattedBalances``` 
-   * balance.amount is being used twice. define ```rawBalance```.
+   * 1. remove ```sortedBalances```. replace with ```formattedBalances``` 
+   * 2. balance.amount is being used twice. define ```rawBalance```.
+   * 3. WalletRow ```index``` key is not unique and could be reordered if ```balances``` changes. 
+   * replace with `${balance.currency}-${balance.blockchain}`.
   */
   const rows: React.ReactNode[] = formattedBalances.map((balance: FormattedWalletBalance, index: number) => {
     const rawBalance = balance.amount; 

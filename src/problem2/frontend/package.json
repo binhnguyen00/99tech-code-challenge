@@ -23,6 +23,7 @@
     "react-router-dom": "^7.9.1",
     "framer-motion": "^12.23.19",
     "@heroui/react": "^2.8.4",
+    "@heroui/use-infinite-scroll": "^2.2.11",
     "@tailwindcss/vite": "^4.1.13",
     "@react-types/shared": "^3.32.0"
   },

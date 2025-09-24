@@ -11,7 +11,11 @@ async function searchCurrencies() {
 export function ExchangeForm() {
   const { data: response, isLoading, isError, refetch } = useQuery({
     queryKey: ["currencies"],
-    queryFn: searchCurrencies
+    queryFn: searchCurrencies,
+    retry(failureCount: number, error) {
+      return failureCount < 3
+    },
+    retryDelay: 1000,
   })
 
   return (

@@ -29,6 +29,8 @@ export function ExchangeForm() {
   const [toCurr, setToCurr] = React.useState<string>("");
   const [fromAmount, setFromAmount] = React.useState<number>(0);
   const [toAmount, setToAmount] = React.useState<number>(0);
+  const [fromRate, setFromRate] = React.useState<number>(0);
+  const [toRate, setToRate] = React.useState<number>(0);
 
   const swapCurrencies = () => {
     setFromCurr(toCurr);
@@ -44,6 +46,8 @@ export function ExchangeForm() {
     const result = response.data;
     if (result.success) {
       setToAmount(result.data["amount_out"]);
+      setFromRate(result.data["amount_in_rate"]);
+      setToRate(result.data["amount_out_rate"]);
     }
   };
 
@@ -79,8 +83,16 @@ export function ExchangeForm() {
                 />
               </div>
 
-              <div className="text-2xl font-semibold h-12 flex items-center">
-                {formatNumber(toAmount)} {toCurr}
+              <div className="flex flex-col">
+                <div className="text-2xl font-semibold h-12 flex items-center">
+                  {formatNumber(toAmount)} {toCurr}
+                </div>
+                <div className="text-sm text-gray-500">
+                  1 {fromCurr} = {formatNumber(fromRate)} {toCurr}
+                </div>
+                <div className="text-sm text-gray-500">
+                  1 {toCurr} = {formatNumber(toRate)} {fromCurr}
+                </div>
               </div>
 
               <Button

@@ -42,6 +42,8 @@ def exchange():
   from_price: float   = lookup[from_currency]
   to_price: float     = lookup[to_currency]
   amount_out: float   = (amount_in * from_price) / to_price
+  amount_in_rate: float  = (1 * from_price) / to_price   # how many TO per 1 FROM
+  amount_out_rate: float = (1 * to_price) / from_price   # how many FROM per 1 TO
 
   return jsonify({
     "status": codes.ok,
@@ -51,7 +53,9 @@ def exchange():
       "from": from_currency,
       "amount_in": amount_in,
       "to": to_currency,
-      "amount_out": amount_out
+      "amount_out": amount_out,
+      "amount_in_rate": amount_in_rate,
+      "amount_out_rate": amount_out_rate
     }
   })
 

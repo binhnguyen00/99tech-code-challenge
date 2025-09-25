@@ -41,7 +41,7 @@ export function ExchangeTable() {
           <div className="text-center text-red-500 font-bold">
             Error fetching exchanges
           </div>
-          <Button fullWidth={false} color="primary" onClick={() => refetch()}>
+          <Button fullWidth={false} color="primary" onPress={() => refetch()}>
             Retry
           </Button>
         </CardBody>
@@ -55,10 +55,11 @@ export function ExchangeTable() {
     <Table
       aria-label="Exchange Table"
       isVirtualized
-      maxTableHeight={300}
       rowHeight={70}
       selectionMode="single"
       color="primary"
+      maxTableHeight={400}
+      className="h-full"
     >
       <TableHeader>
         <TableColumn>Currency</TableColumn>

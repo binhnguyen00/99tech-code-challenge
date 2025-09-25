@@ -1,8 +1,5 @@
-import {
-  Navbar as HeroUINavbar,
-  NavbarBrand, NavbarContent, NavbarItem,
-} from "@heroui/navbar";
 import { Link } from "@heroui/link";
+import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 
 export function Navbar() {
   return (
@@ -11,7 +8,7 @@ export function Navbar() {
         <Link color="primary" href="/">Swap Currency</Link>
       </NavbarBrand>
 
-      <NavbarContent className="hidden sm:flex gap-4">
+      <NavbarContent className="sm:flex gap-4">
         <NavbarItem>
           <Link color="foreground" href="/exchanges">
             Exchanges

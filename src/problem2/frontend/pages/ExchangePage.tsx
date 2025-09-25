@@ -6,8 +6,8 @@ export function ExchangePage() {
   return (
     <DefaultLayout>
       <div className="flex flex-col gap-4">
-        <ExchangeTable />
         <ExchangeForm />
+        <ExchangeTable />
       </div>
     </DefaultLayout>
   )

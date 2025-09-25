@@ -4,7 +4,11 @@ import { NumberInput, Spinner } from "@heroui/react";
 import { Card, CardHeader, CardBody } from "@heroui/card";
 
 async function searchCurrencies() {
-  const response = await axios.get("http://localhost:8080/currency/search")
+  const response = await axios.get("http://localhost:8080/currency/search", {
+    headers: {
+      Accept: "application/json; charset=utf-8"
+    }
+  })
   return response.data
 }
 

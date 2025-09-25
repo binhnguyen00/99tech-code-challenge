@@ -5,15 +5,19 @@ import { Spinner } from "@heroui/spinner";
 import { Card, CardBody } from "@heroui/card";
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from "@heroui/table";
 
-async function searchExchanges() {
-  const response = await axios.get("http://localhost:8080/exchange/search")
+async function searchPrices() {
+  const response = await axios.get("http://localhost:8080/prices/search", {
+    headers: {
+      Accept: "application/json; charset=utf-8"
+    }
+  })
   return response.data
 }
 
 export function ExchangeTable() {
   const { data: response, isLoading, isError, refetch } = useQuery({
-    queryKey: ["exchanges"],
-    queryFn: searchExchanges,
+    queryKey: ["prices"],
+    queryFn: searchPrices,
     retry(failureCount: number, error) {
       return failureCount < 3
     },

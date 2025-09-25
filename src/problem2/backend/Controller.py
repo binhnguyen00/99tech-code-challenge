@@ -1,31 +1,24 @@
-from pydantic import BaseModel;
-from flask import Blueprint, request;
+from typing import Optional;
+from flask import Blueprint, request, jsonify;
 from requests import get, Response, codes;
-from typing import Any;
+
+from PriceService import PriceService;
+from PriceService import CurrencyExchange;
 
 blueprint = Blueprint("Controller", __name__)
 
-class CurrencyExchange(BaseModel):
-  currency: str
-  date: str
-  price: float
-
-  def to_dict(self):
-    return {"currency": self.currency, "date": self.date, "price": self.price}
-
-@blueprint.route("/currency/exchange", methods=["POST"])
-def exchange_currency():
-  response: Response = get("https://interview.switcheo.com/prices.json")
-  if (response.status_code != codes.ok):
-    return {
-      "status": response.status_code,
+@blueprint.route("/exchange", methods=["POST"])
+def exchange():
+  prices: Optional[list[CurrencyExchange]] = PriceService.search_prices()
+  if (not prices):
+    return jsonify({
+      "status": codes.server_error,
       "success": False,
       "message": "Cannot get currency exchange rate",
       "data": None
-    }
+    })
 
-  lookup: dict = {}
-  prices: list[CurrencyExchange] = response.json()
+  lookup: dict[str, float] = {}
   for price in prices:
     lookup.update({price.currency: price.price})
 
@@ -39,19 +32,19 @@ def exchange_currency():
     to_currency not in lookup or
     amount_in <= 0
   ):
-    return {
-      "status": 400,
+    return jsonify({
+      "status": codes.bad_request,
       "success": False,
       "message": "Invalid request",
       "data": None
-    }
+    })
 
   from_price: float   = lookup[from_currency]
   to_price: float     = lookup[to_currency]
   amount_out: float   = (amount_in * from_price) / to_price
 
-  return {
-    "status": 200,
+  return jsonify({
+    "status": codes.ok,
     "success": True,
     "message": "Exchange currency successfully",
     "data": {
@@ -60,35 +53,43 @@ def exchange_currency():
       "to": to_currency,
       "amount_out": amount_out
     }
-  }
+  })
 
-@blueprint.route("/currency", methods=["GET"])
-def search_currency():
-  response: Response = get("https://interview.switcheo.com/prices.json")
-  if (response.status_code != codes.ok):
-    return {
-      "status": response.status_code,
+@blueprint.route("/prices/search", methods=["GET"])
+def search_prices():
+  prices: Optional[list[CurrencyExchange]] = PriceService.search_prices()
+  if (not prices):
+    return jsonify({
+      "status": codes.server_error,
       "success": False,
       "message": "Cannot get currency exchange rate",
       "data": None
-    }
+    })
 
-  seen = set()
-  purified: list[dict] = []
-  exchanges: list[CurrencyExchange] = [ CurrencyExchange(**raw) for raw in response.json() ]
-  for ex in exchanges:
-    key = ex.currency
-    if (key in seen):
-      continue
-    seen.add(key)
-    purified.append(ex.to_dict())
-
-  return {
-    "status": response.status_code,
+  return jsonify({
+    "status": codes.ok,
     "success": True,
     "message": "Get currency exchange rate successfully",
-    "data": purified
-  }
+    "data": [price.to_dict() for price in prices]
+  })
+
+@blueprint.route("/currency/search", methods=["GET"])
+def search_exchanges():
+  prices: Optional[list[CurrencyExchange]] = PriceService.search_prices()
+  if (not prices):
+    return jsonify({
+      "status": codes.server_error,
+      "success": False,
+      "message": "Cannot get currency exchange rate",
+      "data": None
+    })
+
+  return jsonify({
+    "status": codes.ok,
+    "success": True,
+    "message": "Get currency exchange rate successfully",
+    "data": [price.currency for price in prices]
+  })
 
 @blueprint.route("/health", methods=["GET"])
 def health():

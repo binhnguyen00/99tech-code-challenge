@@ -8,7 +8,14 @@
     "**/pnpm-lock.yaml": true,
     "**/dist": true,
     "**/node_modules": true,
+    "**/backend/__pycache__": true
   },
   "editor.formatOnSave": false,
   "editor.formatOnPaste": false,
+  "[python]": {
+    "analysis.typeCheckingMode": "basic",
+    "analysis.extraPaths": [
+      "./backend"
+    ]
+  }
 }

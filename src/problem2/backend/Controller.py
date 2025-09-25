@@ -1,6 +1,6 @@
 from typing import Optional;
+from requests import get, codes;
 from flask import Blueprint, request, jsonify;
-from requests import get, Response, codes;
 
 from PriceService import PriceService;
 from PriceService import CurrencyExchange;

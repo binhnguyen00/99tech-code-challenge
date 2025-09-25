@@ -31,13 +31,26 @@ export function ExchangeForm() {
   const [toAmount, setToAmount] = React.useState<number>(0);
   const [fromRate, setFromRate] = React.useState<number>(0);
   const [toRate, setToRate] = React.useState<number>(0);
+  const [exchangeLoading, setExchangeLoading] = React.useState<boolean>(false);
 
   const swapCurrencies = () => {
     setFromCurr(toCurr);
     setToCurr(fromCurr);
   };
 
+  const updateCurrency = (currency: string, type: "from" | "to") => {
+    if (type === "from") {
+      setFromCurr(currency);
+    } else {
+      setToCurr(currency);
+    }
+    setToAmount(0);
+    setFromRate(0);
+    setToRate(0);
+  };
+
   const exchange = async () => {
+    setExchangeLoading(true);
     const response = await axios.post("http://localhost:8080/exchange", {
       from: fromCurr,
       to: toCurr,
@@ -49,6 +62,7 @@ export function ExchangeForm() {
       setFromRate(result.data["amount_in_rate"]);
       setToRate(result.data["amount_out_rate"]);
     }
+    setExchangeLoading(false);
   };
 
   const formatNumber = (num: number) => {
@@ -104,6 +118,7 @@ export function ExchangeForm() {
                 className="h-12 font-semibold bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl"
                 onPress={exchange}
                 isDisabled={!fromAmount || !fromCurr || !toCurr || isLoading}
+                isLoading={exchangeLoading}
               >
                 <Zap className="h-4 w-4 mr-2" />
                 Exchange
@@ -118,7 +133,7 @@ export function ExchangeForm() {
                 <Select
                   selectedKeys={[fromCurr]}
                   variant="underlined" size="lg" required
-                  onChange={(e) => setFromCurr(e.target.value)}
+                  onChange={(e) => updateCurrency(e.target.value, "from")}
                   placeholder="Select a currency"
                   aria-label="From Currency"
                 >
@@ -148,7 +163,7 @@ export function ExchangeForm() {
                 <Select
                   selectedKeys={[toCurr]}
                   variant="underlined" size="lg" required
-                  onChange={(e) => setToCurr(e.target.value)}
+                  onChange={(e) => updateCurrency(e.target.value, "to")}
                   placeholder="Select a currency"
                   aria-label="To Currency"
                 >

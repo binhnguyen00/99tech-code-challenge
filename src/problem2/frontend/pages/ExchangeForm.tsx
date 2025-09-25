@@ -126,23 +126,41 @@ export function ExchangeForm() {
             </CardBody>
           </Card>
 
-          <div className="flex flex-1 space-x-4 md:flex-col md:space-y-2">
+          <div className="flex flex-1 md:flex-col md:space-y-2">
             <Card className="flex-1" aria-label="From Currency">
               <CardBody>
-                <p className="text-sm text-gray-500"> From </p>
-                <Select
-                  selectedKeys={[fromCurr]}
-                  variant="underlined" size="lg" required
-                  onChange={(e) => updateCurrency(e.target.value, "from")}
-                  placeholder="Select a currency"
-                  aria-label="From Currency"
-                >
-                  {response?.data?.map((currency: string) => (
-                    <SelectItem key={currency} textValue={currency}>
-                      <span className="text-lg"> {currency} </span>
-                    </SelectItem>
-                  ))}
-                </Select>
+                {isLoading ? (
+                  <>
+                    <p className="text-sm text-gray-500"> From </p>
+                    <Spinner size="sm" />
+                  </>
+                ) : !isError ? (
+                  <>
+                    <p className="text-sm text-gray-500"> From </p>
+                    <Select
+                      selectedKeys={[fromCurr]}
+                      variant="underlined" size="lg" required
+                      onChange={(e) => updateCurrency(e.target.value, "from")}
+                      placeholder="Select a currency"
+                      aria-label="From Currency"
+                    >
+                      {response?.data?.map((currency: string) => (
+                        <SelectItem key={currency} textValue={currency}>
+                          <span className="text-lg"> {currency} </span>
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  </>
+                ) : (
+                  <Card>
+                    <CardBody className="text-center flex flex-col items-center justify-center">
+                      <p className="text-danger text-sm">Failed to load currencies</p>
+                      <Button size="sm" className="w-fit" variant="light" color="primary" onPress={() => refetch()}>
+                        Retry
+                      </Button>
+                    </CardBody>
+                  </Card>
+                )}
               </CardBody>
             </Card>
 
@@ -159,35 +177,42 @@ export function ExchangeForm() {
 
             <Card className="flex-1" aria-label="To Currency">
               <CardBody>
-                <p className="text-sm text-gray-500"> To </p>
-                <Select
-                  selectedKeys={[toCurr]}
-                  variant="underlined" size="lg" required
-                  onChange={(e) => updateCurrency(e.target.value, "to")}
-                  placeholder="Select a currency"
-                  aria-label="To Currency"
-                >
-                  {response?.data?.map((currency: string) => (
-                    <SelectItem key={currency} textValue={currency}>
-                      <span className="text-lg"> {currency} </span>
-                    </SelectItem>
-                  ))}
-                </Select>
+                {isLoading ? (
+                  <>
+                    <p className="text-sm text-gray-500"> To </p>
+                    <Spinner size="sm" />
+                  </>
+                ) : !isError ? (
+                  <>
+                    <p className="text-sm text-gray-500"> To </p>
+                    <Select
+                      selectedKeys={[toCurr]}
+                      variant="underlined" size="lg" required
+                      onChange={(e) => updateCurrency(e.target.value, "to")}
+                      placeholder="Select a currency"
+                      aria-label="To Currency"
+                    >
+                      {response?.data?.map((currency: string) => (
+                        <SelectItem key={currency} textValue={currency}>
+                          <span className="text-lg"> {currency} </span>
+                        </SelectItem>
+                      ))}
+                    </Select>
+                  </>
+                ) : (
+                  <Card>
+                    <CardBody className="flex flex-col items-center justify-center">
+                      <p className="text-danger text-sm">Failed to load currencies</p>
+                      <Button size="sm" className="w-fit" variant="light" color="primary" onPress={() => refetch()}>
+                        Retry
+                      </Button>
+                    </CardBody>
+                  </Card>
+                )}
               </CardBody>
             </Card>
           </div>
         </div>
-
-        {isError && (
-          <Card className="border-danger-200 bg-danger-50 dark:bg-danger-900/20">
-            <CardBody className="text-center">
-              <p className="text-danger text-sm">Failed to load currencies</p>
-              <Button size="sm" variant="light" color="danger" onPress={() => refetch()}>
-                Retry
-              </Button>
-            </CardBody>
-          </Card>
-        )}
       </div>
     </div>
   );

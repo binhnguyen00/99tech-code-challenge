@@ -38,10 +38,10 @@ export function ExchangeTable() {
     return (
       <Card fullWidth className="flex items-center justify-center p-10">
         <CardBody className="flex flex-col gap-4 items-center">
-          <div className="text-center text-red-500 font-bold">
+          <div className="text-center text-danger">
             Error fetching exchanges
           </div>
-          <Button fullWidth={false} color="primary" onPress={() => refetch()}>
+          <Button fullWidth={false} color="primary" variant="light" onPress={() => refetch()}>
             Retry
           </Button>
         </CardBody>

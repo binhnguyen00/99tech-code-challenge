@@ -1,3 +1,4 @@
+from time import sleep
 from typing import Optional;
 from requests import get, codes;
 from flask import Blueprint, request, jsonify;
@@ -45,6 +46,7 @@ def exchange():
   amount_in_rate: float  = (1 * from_price) / to_price   # how many TO per 1 FROM
   amount_out_rate: float = (1 * to_price) / from_price   # how many FROM per 1 TO
 
+  sleep(0.5)
   return jsonify({
     "status": codes.ok,
     "success": True,
@@ -70,6 +72,7 @@ def search_prices():
       "data": None
     })
 
+  sleep(0.5)
   return jsonify({
     "status": codes.ok,
     "success": True,
@@ -88,6 +91,7 @@ def search_exchanges():
       "data": None
     })
 
+  sleep(0.5)
   return jsonify({
     "status": codes.ok,
     "success": True,

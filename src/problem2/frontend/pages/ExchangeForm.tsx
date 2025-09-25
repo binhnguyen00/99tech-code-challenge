@@ -88,10 +88,14 @@ export function ExchangeForm() {
                   {formatNumber(toAmount)} {toCurr}
                 </div>
                 <div className="text-sm text-gray-500">
-                  1 {fromCurr} = {formatNumber(fromRate)} {toCurr}
+                  {fromRate == 0 ? null : (
+                    <> 1 {fromCurr} = {formatNumber(fromRate)} {toCurr} </>
+                  )}
                 </div>
                 <div className="text-sm text-gray-500">
-                  1 {toCurr} = {formatNumber(toRate)} {fromCurr}
+                  {toRate == 0 ? null : (
+                    <> 1 {toCurr} = {formatNumber(toRate)} {fromCurr} </>
+                  )}
                 </div>
               </div>
 

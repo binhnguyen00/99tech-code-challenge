@@ -77,7 +77,10 @@ export function ExchangeForm() {
   };
 
   const formatPrice = (num: number) => {
-    const formatter = new Intl.NumberFormat("en-US").format(num);
+    const formatter = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4
+    }).format(num);
     return formatter;
   };
 
@@ -157,6 +160,11 @@ export function ExchangeForm() {
                       placeholder="Currency"
                       aria-label="From Currency"
                       isLoading={isLoading} isClearable
+                      startContent={
+                        <div className="w-8">
+                          <TokenAvatar currency={fromCurr} />
+                        </div>
+                      }
                     >
                       {response!.data?.map((currency: string) => (
                         <SelectItem key={currency} textValue={currency}>
@@ -209,6 +217,11 @@ export function ExchangeForm() {
                       placeholder="Currency"
                       aria-label="To Currency"
                       isLoading={isLoading} isClearable
+                      startContent={
+                        <div className="w-8">
+                          <TokenAvatar currency={toCurr} />
+                        </div>
+                      }
                     >
                       {response!.data?.map((currency: string) => (
                         <SelectItem key={currency} textValue={currency}>

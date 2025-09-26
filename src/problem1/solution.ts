@@ -6,6 +6,7 @@
 */
 
 var sum_to_n_a = function (n: number): number {
+  if (n <= 0) return 0;
   let result: number = 0;
   for (let i = 1; i <= n; i++) {
     result += i;
@@ -14,6 +15,7 @@ var sum_to_n_a = function (n: number): number {
 };
 
 var sum_to_n_b = function (n: number): number {
+  if (n <= 0) return 0;
   let result: number = 0;
   let i: number = 1;
   while (i <= n) {
@@ -24,6 +26,7 @@ var sum_to_n_b = function (n: number): number {
 };
 
 var sum_to_n_c = function (n: number): number {
+  if (n <= 0) return 0;
   const result: number = (n * (n + 1)) / 2;
   return result;
 };

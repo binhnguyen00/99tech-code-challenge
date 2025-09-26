@@ -1,5 +1,5 @@
 # stage 1: install dependencies
-FROM python:3.12-slim as builder
+FROM python:3.12-slim AS builder
 
 WORKDIR /backend
 
@@ -23,9 +23,11 @@ WORKDIR /backend
 
 USER root
 
-COPY --from=builder /backend /backend
-COPY --from=builder /install /usr/local
-COPY src src
+RUN apt-get update && apt-get install -y \
+  curl \
+  && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 8080
-CMD ["sh", "-c", "gunicorn -w 1 -b 0.0.0.0:8080 'Application:create_app()'"]
+COPY --from=builder /install /usr/local
+COPY . .
+
+CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:1234", "Application:create_app()"]

@@ -20,7 +20,7 @@ type PricesResponse = {
 }
 
 async function searchPrices(): Promise<PricesResponse> {
-  const response = await axios.get<PricesResponse>("http://localhost:8080/prices/search", {
+  const response = await axios.get<PricesResponse>("http://localhost:1234/prices/search", {
     headers: {
       Accept: "application/json; charset=utf-8"
     }

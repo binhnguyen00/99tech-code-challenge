@@ -7,7 +7,6 @@ import { defineConfig } from "vite";
 
 export default function viteConfig() {
   return defineConfig({
-    root: path.resolve(__dirname),
     plugins: [
       react(),
       tsconfigPaths(),
@@ -40,5 +39,9 @@ export default function viteConfig() {
       port: 2999,
       open: true,
     },
+    preview: {
+      port: 2999,
+      open: true,
+    }
   })
 }

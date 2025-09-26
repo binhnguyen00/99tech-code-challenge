@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    ports:
+      - "1234:1234"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1234/health"]
+      interval: 1s
+      timeout: 5s
+      retries: 2
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+    ports:
+      - "2999:2999"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

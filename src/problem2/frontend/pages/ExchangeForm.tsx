@@ -15,7 +15,7 @@ type CurrencyResponse = {
 }
 
 async function searchCurrencies() {
-  const response = await axios.get<CurrencyResponse>("http://localhost:8080/currency/search", {
+  const response = await axios.get<CurrencyResponse>("http://localhost:1234/currency/search", {
     headers: {
       Accept: "application/json; charset=utf-8"
     }
@@ -33,8 +33,8 @@ export function ExchangeForm() {
     retryDelay: 1000,
   });
 
-  const [fromCurr, setFromCurr] = React.useState<string>("");
-  const [toCurr, setToCurr] = React.useState<string>("");
+  const [fromCurr, setFromCurr] = React.useState<string>("USD");
+  const [toCurr, setToCurr] = React.useState<string>("ETH");
   const [fromAmount, setFromAmount] = React.useState<number>(0);
   const [toAmount, setToAmount] = React.useState<number>(0);
   const [fromRate, setFromRate] = React.useState<number>(0);
@@ -46,6 +46,7 @@ export function ExchangeForm() {
     setToCurr(fromCurr);
     setFromRate(0);
     setToRate(0);
+    setToAmount(0);
   };
 
   const updatePrice = (currency: string, type: "from" | "to") => {
@@ -61,7 +62,7 @@ export function ExchangeForm() {
 
   const exchange = async () => {
     setExchangeLoading(true);
-    const response = await axios.post("http://localhost:8080/exchange", {
+    const response = await axios.post("http://localhost:1234/exchange", {
       from: fromCurr,
       to: toCurr,
       amount: fromAmount,

@@ -1,6 +1,6 @@
-from time import sleep
+from time import sleep;
+from requests import codes;
 from typing import Optional;
-from requests import get, codes;
 from flask import Blueprint, request, jsonify;
 
 from PriceService import PriceService;

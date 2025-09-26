@@ -1,18 +1,26 @@
 import React from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { Card, CardBody } from "@heroui/card";
 import { Select, SelectItem } from "@heroui/select";
-import { Card, CardHeader, CardBody } from "@heroui/card";
 import { NumberInput, Spinner, Button } from "@heroui/react";
-import { ArrowRightLeft, TrendingUp, Zap } from "lucide-react";
+import { ArrowRightLeft, Zap } from "lucide-react";
+import { TokenAvatar } from "@/pages/ExchangeTable";
+
+type CurrencyResponse = {
+  status: number;
+  success: boolean;
+  message: string;
+  data: string[];
+}
 
 async function searchCurrencies() {
-  const response = await axios.get("http://localhost:8080/currency/search", {
+  const response = await axios.get<CurrencyResponse>("http://localhost:8080/currency/search", {
     headers: {
       Accept: "application/json; charset=utf-8"
     }
   });
-  return response.data;
+  return response.data as CurrencyResponse;
 }
 
 export function ExchangeForm() {
@@ -36,9 +44,11 @@ export function ExchangeForm() {
   const swapCurrencies = () => {
     setFromCurr(toCurr);
     setToCurr(fromCurr);
+    setFromRate(0);
+    setToRate(0);
   };
 
-  const updateCurrency = (currency: string, type: "from" | "to") => {
+  const updatePrice = (currency: string, type: "from" | "to") => {
     if (type === "from") {
       setFromCurr(currency);
     } else {
@@ -65,7 +75,7 @@ export function ExchangeForm() {
     setExchangeLoading(false);
   };
 
-  const formatNumber = (num: number) => {
+  const formatPrice = (num: number) => {
     const formatter = new Intl.NumberFormat("en-US").format(num);
     return formatter;
   };
@@ -80,7 +90,6 @@ export function ExchangeForm() {
             Crypto Exchange
           </h2>
         </div>
-        <p className="text-default-500">Trade cryptocurrencies instantly with real-time rates</p>
       </div>
 
       <div className="relative space-y-4">
@@ -99,16 +108,16 @@ export function ExchangeForm() {
 
               <div className="flex flex-col">
                 <div className="text-2xl font-semibold h-12 flex items-center">
-                  {formatNumber(toAmount)} {toCurr}
+                  {formatPrice(toAmount)} {toCurr}
                 </div>
                 <div className="text-sm text-gray-500">
                   {fromRate == 0 ? null : (
-                    <> 1 {fromCurr} = {formatNumber(fromRate)} {toCurr} </>
+                    <> 1 {fromCurr} = {formatPrice(fromRate)} {toCurr} </>
                   )}
                 </div>
                 <div className="text-sm text-gray-500">
                   {toRate == 0 ? null : (
-                    <> 1 {toCurr} = {formatNumber(toRate)} {fromCurr} </>
+                    <> 1 {toCurr} = {formatPrice(toRate)} {fromCurr} </>
                   )}
                 </div>
               </div>
@@ -140,13 +149,17 @@ export function ExchangeForm() {
                     <Select
                       selectedKeys={[fromCurr]}
                       variant="underlined" size="lg" required
-                      onChange={(e) => updateCurrency(e.target.value, "from")}
-                      placeholder="Select a currency"
+                      onChange={(e) => updatePrice(e.target.value, "from")}
+                      placeholder="Currency"
                       aria-label="From Currency"
+                      isLoading={isLoading} isClearable
                     >
-                      {response?.data?.map((currency: string) => (
+                      {response!.data?.map((currency: string) => (
                         <SelectItem key={currency} textValue={currency}>
-                          <span className="text-lg"> {currency} </span>
+                          <div className="flex flex-row items-center">
+                            <TokenAvatar currency={currency} />
+                            <p className="text-lg font-semibold text-blue-500"> {currency} </p>
+                          </div>
                         </SelectItem>
                       ))}
                     </Select>
@@ -164,7 +177,7 @@ export function ExchangeForm() {
               </CardBody>
             </Card>
 
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center mx-2">
               <Button
                 isIconOnly
                 color="primary"
@@ -188,13 +201,17 @@ export function ExchangeForm() {
                     <Select
                       selectedKeys={[toCurr]}
                       variant="underlined" size="lg" required
-                      onChange={(e) => updateCurrency(e.target.value, "to")}
-                      placeholder="Select a currency"
+                      onChange={(e) => updatePrice(e.target.value, "to")}
+                      placeholder="Currency"
                       aria-label="To Currency"
+                      isLoading={isLoading} isClearable
                     >
-                      {response?.data?.map((currency: string) => (
+                      {response!.data?.map((currency: string) => (
                         <SelectItem key={currency} textValue={currency}>
-                          <span className="text-lg"> {currency} </span>
+                          <div className="flex flex-row items-center">
+                            <TokenAvatar currency={currency} />
+                            <p className="text-lg font-semibold text-blue-500"> {currency} </p>
+                          </div>
                         </SelectItem>
                       ))}
                     </Select>

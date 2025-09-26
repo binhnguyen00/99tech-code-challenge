@@ -104,11 +104,14 @@ export function ExchangeForm() {
                   value={fromAmount} variant="underlined" size="lg" required
                   onChange={(e) => setFromAmount(Number(e))}
                   aria-label="Amount"
+                  classNames={{
+                    input: "text-2xl",
+                  }}
                 />
               </div>
 
               <div className="flex flex-col">
-                <div className="text-2xl font-semibold h-12 flex items-center">
+                <div className="text-2xl font-semibold flex items-center">
                   {formatPrice(toAmount)} {toCurr}
                 </div>
                 <div className="text-sm text-gray-500">

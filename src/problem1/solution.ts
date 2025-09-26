@@ -27,3 +27,7 @@ var sum_to_n_c = function (n: number): number {
   const result: number = (n * (n + 1)) / 2;
   return result;
 };
+
+console.log(sum_to_n_a(5));
+console.log(sum_to_n_b(5));
+console.log(sum_to_n_c(5));

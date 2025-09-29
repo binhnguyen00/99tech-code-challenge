@@ -12,28 +12,12 @@ export default function viteConfig() {
       tsconfigPaths(),
       tailwindcss()
     ],
+    base: "./",
     build: {
       chunkSizeWarningLimit: 1000,
       emptyOutDir: true,
+      sourcemap: true,
       outDir: path.resolve(__dirname, "./dist"),
-      rollupOptions: {
-        output: {
-          manualChunks(id) { // split into chunks
-            if (id.includes("node_modules")) {
-              if (id.includes("react-dom")) {
-                return "react-dom";
-              }
-              if (id.includes("react-router-dom")) {
-                return "react-router-dom";
-              }
-              if (id.includes("react")) {
-                return "react";
-              }
-            }
-            return "vendor"
-          }
-        }
-      }
     },
     server: {
       port: 2999,
